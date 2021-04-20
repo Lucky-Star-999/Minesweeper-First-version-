@@ -1,4 +1,4 @@
-/*Hi, The project pulled sucessfully*/
+/*Hi, The project pulled sucessfully! Finished!*/
 
 var NUMBER_SQUARES_IN_A_ROW = 10;
 var NUMBER_SQUARES_IN_A_COLUMN = 10;
