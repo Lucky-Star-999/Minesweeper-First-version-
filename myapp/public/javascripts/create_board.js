@@ -1,9 +1,11 @@
 var NUMBER_SQUARES_IN_A_ROW = 15;
 var NUMBER_SQUARES_IN_A_COLUMN = 10;
-var NUMBER_OF_BOMBS = 5;
+var NUMBER_OF_BOMBS = 20;
 var map_board = [];
 var is_first_click = true;
 var game_state = "nothing";
+var board_state = [];
+
 
 
 
@@ -475,9 +477,51 @@ function time_counter() {
     }
 }
 
+/****************************************** Store board state (Support "Undo") *************************************/
+function update_board_state() {
 
+    if (is_first_click) {
+
+    } else {
+        let state_temp = [];
+        for (let i = 0; i < NUMBER_SQUARES_IN_A_ROW * NUMBER_SQUARES_IN_A_COLUMN; i++) {
+            let id_query = "#" + i;
+            state_temp.push($(id_query).attr("class"));
+        }
+
+        board_state.push(state_temp);
+    }
+
+
+}
+
+function undo_state() {
+
+    board_state.pop();
+
+
+
+    for (let i = 0; i < NUMBER_SQUARES_IN_A_ROW * NUMBER_SQUARES_IN_A_COLUMN; i++) {
+        let id_query = "#" + i;
+        $(id_query).removeClass();
+        $(id_query).addClass(board_state[board_state.length - 1][i]);
+    }
+    console.log(board_state);
+    active_undo_button();
+
+}
+
+function active_undo_button() {
+    if (board_state.length <= 1) {
+        $("#undo_button").prop("disabled", true);
+    } else {
+        $("#undo_button").prop("disabled", false);
+    }
+}
 
 /****************************************** Calling default function****************************************/
 
 //Max width is 30
 create_squares(NUMBER_SQUARES_IN_A_ROW, NUMBER_SQUARES_IN_A_COLUMN);
+active_undo_button();
+alert("Nếu user click bậy mà không có gì thay đổi ở board, thì không update!");

@@ -124,7 +124,7 @@
             </div>
 
             <div class="card-body d-flex justify-content-around align-items-center">
-                <button type="button" class="btn btn-success">Undo</button>
+                <button type="button" class="btn btn-success" onclick="undo_state()" id="undo_button">Undo</button>
                 <button type="button" class="btn btn-primary">Leaderboard</button>
             </div>
 
@@ -139,7 +139,10 @@
             </div>
 
             <div class="card-footer">
-                <div></div>
+                <div>Instruction: </div>
+                <div>Left-click to open a square</div>
+                <div>Right-click to put a flag</div>
+                <div>Middle-click to reveal 3x3 range</div>
             </div>
         </div>
 
@@ -174,9 +177,11 @@
                     break;
                 case 3:
                     $(this).toggleClass("flag_on");
-                    break;
+                    break; 
             }
             check_win_or_lose();
+            update_board_state();
+            active_undo_button();
         });
 
         //Disable wheel click on the board
@@ -186,9 +191,6 @@
                     event.preventDefault();
             }
         });
-
-
-        
     </script>
 
 
