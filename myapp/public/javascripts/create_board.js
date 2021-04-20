@@ -1,3 +1,5 @@
+/*Hi, The project pulled sucessfully*/
+
 var NUMBER_SQUARES_IN_A_ROW = 10;
 var NUMBER_SQUARES_IN_A_COLUMN = 10;
 var NUMBER_OF_BOMBS = 10;
