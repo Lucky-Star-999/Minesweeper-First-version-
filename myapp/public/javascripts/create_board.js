@@ -1,6 +1,6 @@
 var NUMBER_SQUARES_IN_A_ROW = 10;
 var NUMBER_SQUARES_IN_A_COLUMN = 10;
-var NUMBER_OF_BOMBS = 20;
+var NUMBER_OF_BOMBS = 5;
 var map_board = [];
 var is_first_click = true;
 
@@ -420,6 +420,32 @@ function boundary_squares_and_empty_squares(id_number_center) {
 
     return checked_positions;
 }*/
+
+/****************************************** Handle win or lose! ********************************************/
+function check_win_or_lose() {
+    let how_many_unreveal_squares = 0;
+    let touch_bomb = 0;
+
+    for (let i = 0; i < NUMBER_SQUARES_IN_A_ROW * NUMBER_SQUARES_IN_A_COLUMN; i++) {
+        let id_query = "#" + i;
+        if ($(id_query).attr("class").includes("active")) {
+            if($(id_query).attr("class").includes("bomb")){
+                touch_bomb++;
+                alert("You lose!");
+            }
+        } else {
+            how_many_unreveal_squares++;
+        }
+    }
+
+    if ((how_many_unreveal_squares <= NUMBER_OF_BOMBS) && touch_bomb === 0) {
+        alert("You win!");
+    }
+
+
+}
+
+
 
 
 

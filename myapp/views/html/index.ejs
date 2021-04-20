@@ -22,7 +22,7 @@
         }
 
         .hoverable {
-            background-color: pink;
+            background-color: #73c2fb;
             cursor: pointer;
             border-radius: 5px;
             margin: 2px;
@@ -135,12 +135,25 @@
                     reveal_square(this.id);
                     break;
                 case 2:
-                    reveal_3x3_squares(this.id);
                     event.preventDefault();
+                    if (is_first_click) {
+                        reveal_square(this.id);
+                    } else {
+                        reveal_3x3_squares(this.id);
+                    }
                     break;
                 case 3:
                     $(this).toggleClass("flag_on");
                     break;
+            }
+            check_win_or_lose();
+        });
+
+
+        $('#board').mousedown(function (event) {
+            switch (event.which) {
+                case 2:
+                    event.preventDefault();
             }
         });
     </script>
