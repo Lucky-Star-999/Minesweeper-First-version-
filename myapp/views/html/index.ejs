@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <title>Minesweeper</title>
+
+    <style>
+        /*body{
+            background-color: #def3fd;
+        }*/
+        body {
+            background-color: blue;
+        }
+
+        .hoverable {
+            background-color: pink;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 2px;
+        }
+
+
+        #board {
+            background-color: green;
+        }
+
+        .flag_on {
+            background-color: pink;
+            background-image: url('../images/flag.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+        }
+
+        .hoverable:hover {
+            background-color: greenyellow;
+        }
+
+
+        .active.bomb {
+            border-radius: 5px;
+            margin: 2px;
+            background-image: url('../images/bomb.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+        }
+
+        .active {
+            border-radius: 5px;
+            margin: 2px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+        }
+
+        .active.number_0 {
+            background-image: url('../images/Number_0.png');
+        }
+
+        .active.number_1 {
+            background-image: url('../images/Number_1.png');
+        }
+
+        .active.number_2 {
+            background-image: url('../images/Number_2.png');
+        }
+
+        .active.number_3 {
+            background-image: url('../images/Number_3.png');
+        }
+
+        .active.number_4 {
+            background-image: url('../images/Number_4.png');
+        }
+
+        .active.number_5 {
+            background-image: url('../images/Number_5.png');
+        }
+
+        .active.number_6 {
+            background-image: url('../images/Number_6.png');
+        }
+
+        .active.number_7 {
+            background-image: url('../images/Number_7.png');
+        }
+
+        .active.number_8 {
+            background-image: url('../images/Number_8.png');
+        }
+
+        .active.number_9 {
+            background-image: url('../images/Number_9.png');
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container d-flex justify-content-center">
+        <div class="d-flex justify-content-center mt-5 bg-secondary overflow-auto flex-nowrap"
+            style="width: 900px; height: 525px;" id="boundary">
+
+
+        </div>
+
+
+    </div>
+
+    <script src="../javascripts/create_board.js"></script>
+    <script>
+        //Remove the menu context
+        $('.hoverable').bind("contextmenu", function (e) {
+            return false;
+        });
+
+        //Remove the menu context
+        $('#board').bind("contextmenu", function (e) {
+            return false;
+        });
+
+        //Check clicking on a square
+        $('.hoverable').mousedown(function (event) {
+            switch (event.which) {
+                case 1:
+                    reveal_square(this.id);
+                    //relative_3x3_squares(this.id);
+                    break;
+                case 2:
+                    reveal_3x3_squares(this.id);
+                    //reveal_all_empty_squares(this.id);
+                    event.preventDefault();
+                    break;
+                case 3:
+                    $(this).toggleClass("flag_on");
+                    break;
+            }
+        });
+    </script>
+
+
+</body>
+
+</html>
