@@ -1,9 +1,8 @@
-/*Hi, The project pulled sucessfully! Finished!*/
-
 var NUMBER_SQUARES_IN_A_ROW = 10;
 var NUMBER_SQUARES_IN_A_COLUMN = 10;
-var NUMBER_OF_BOMBS = 10;
+var NUMBER_OF_BOMBS = 20;
 var map_board = [];
+var is_first_click = true;
 
 
 
@@ -67,10 +66,9 @@ function set_background_for_each_square(id, number) {
 }
 
 
-function set_background_for_all(max_number_of_bomb) { //Just run it after the user click for the first time
+function set_background_for_all(max_number_of_bomb, must_not_bomb) { //Just run it after the user click for the first time
 
     let number_of_bomb = 0;
-
 
     let arr = [];
     for (let i = 0; i < NUMBER_SQUARES_IN_A_ROW * NUMBER_SQUARES_IN_A_COLUMN; i++) {
@@ -80,14 +78,57 @@ function set_background_for_all(max_number_of_bomb) { //Just run it after the us
 
     let check_duplicate_bomb = [];
     for (let i = 0; i < max_number_of_bomb; i++) {
+
+
+
         let number = Math.floor(Math.random() * NUMBER_SQUARES_IN_A_ROW * NUMBER_SQUARES_IN_A_COLUMN);
         let duplicate_bomb = true;
         let is_duplicate_for_loop = false;
+
+        console.log("Must not bomb: " + must_not_bomb);
+
+
+        //Handle for initialize - First click must not encounter bombs - Part 1
+        //We need part 2 because when handle for duplicate bomb, the value of bomb can be violate the first click again
+        while (true) {
+            let count_encounter_bomb = 0;
+            for (let k = 0; k < must_not_bomb.length; k++) {
+                if (number === must_not_bomb[k]) {
+                    number = Math.floor(Math.random() * NUMBER_SQUARES_IN_A_ROW * NUMBER_SQUARES_IN_A_COLUMN);
+                    count_encounter_bomb++;
+                    break;
+                }
+            }
+            if (count_encounter_bomb === 0) {
+                break;
+            }
+        }
+
+
+        //Handle for duplicate bomb
         while (duplicate_bomb === true) {
             is_duplicate_for_loop = false;
             for (let j = 0; j <= check_duplicate_bomb.length; j++) {
                 if (number === check_duplicate_bomb[j]) {
                     number = Math.floor(Math.random() * NUMBER_SQUARES_IN_A_ROW * NUMBER_SQUARES_IN_A_COLUMN);
+
+
+                    //Handle for initialize - First click must not encounter bombs - Part 2
+                    while (true) {
+                        let count_encounter_bomb = 0;
+                        for (let k = 0; k < must_not_bomb.length; k++) {
+                            if (number === must_not_bomb[k]) {
+                                number = Math.floor(Math.random() * NUMBER_SQUARES_IN_A_ROW * NUMBER_SQUARES_IN_A_COLUMN);
+                                count_encounter_bomb++;
+                                break;
+                            }
+                        }
+                        if (count_encounter_bomb === 0) {
+                            break;
+                        }
+                    }
+
+
                     is_duplicate_for_loop = true;
                     break;
                 }
@@ -180,6 +221,32 @@ function generate_map() {
 /******************************************* Handle click event****************************************************/
 function reveal_square(id_number) {
     let id = parseInt(id_number);
+
+    if (is_first_click) {
+        is_first_click = false;
+
+        //Initialize the map
+        let must_not_bomb = relative_3x3_squares(id_number);
+        set_background_for_all(NUMBER_OF_BOMBS, must_not_bomb);
+        generate_map();
+
+
+        reveal_3x3_squares(id_number);
+
+    } else {
+        id = "#" + id;
+
+        $(id).removeClass("hoverable");
+        $(id).addClass("active");
+
+        if ($(id).attr("class").includes("number_0")) {
+            reveal_all_empty_squares(parseInt(id_number));
+        }
+    }
+}
+
+/*function reveal_square(id_number) {
+    let id = parseInt(id_number);
     id = "#" + id;
 
     $(id).removeClass("hoverable");
@@ -189,7 +256,7 @@ function reveal_square(id_number) {
         reveal_all_empty_squares(parseInt(id_number));
     }
     
-}
+}*/
 
 function reveal_3x3_squares(id_number_center) {
     let squares_reveal = relative_3x3_squares(id_number_center);
@@ -279,13 +346,13 @@ function all_empty_squares(id_number_center) {
             }
             if (is_duplicate === false) {
                 let id_query = "#" + arr[i];
-                if ($(id_query).attr("class").includes("number_0") ) {
-                    if($(id_query).attr("class").includes("flag_on")){
+                if ($(id_query).attr("class").includes("number_0")) {
+                    if ($(id_query).attr("class").includes("flag_on")) {
 
-                    }else{
+                    } else {
                         checked_positions.push(arr[i]);
                     }
-                    
+
                 }
             }
         }
@@ -360,5 +427,3 @@ function boundary_squares_and_empty_squares(id_number_center) {
 
 //Max width is 30
 create_squares(NUMBER_SQUARES_IN_A_ROW, NUMBER_SQUARES_IN_A_COLUMN);
-set_background_for_all(NUMBER_OF_BOMBS);
-generate_map();
