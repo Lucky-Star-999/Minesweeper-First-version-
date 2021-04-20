@@ -1,8 +1,9 @@
-var NUMBER_SQUARES_IN_A_ROW = 10;
+var NUMBER_SQUARES_IN_A_ROW = 15;
 var NUMBER_SQUARES_IN_A_COLUMN = 10;
 var NUMBER_OF_BOMBS = 5;
 var map_board = [];
 var is_first_click = true;
+var game_state = "nothing";
 
 
 
@@ -84,8 +85,6 @@ function set_background_for_all(max_number_of_bomb, must_not_bomb) { //Just run 
         let number = Math.floor(Math.random() * NUMBER_SQUARES_IN_A_ROW * NUMBER_SQUARES_IN_A_COLUMN);
         let duplicate_bomb = true;
         let is_duplicate_for_loop = false;
-
-        console.log("Must not bomb: " + must_not_bomb);
 
 
         //Handle for initialize - First click must not encounter bombs - Part 1
@@ -229,7 +228,7 @@ function reveal_square(id_number) {
         let must_not_bomb = relative_3x3_squares(id_number);
         set_background_for_all(NUMBER_OF_BOMBS, must_not_bomb);
         generate_map();
-
+        time_counter();
 
         reveal_3x3_squares(id_number);
 
@@ -429,9 +428,11 @@ function check_win_or_lose() {
     for (let i = 0; i < NUMBER_SQUARES_IN_A_ROW * NUMBER_SQUARES_IN_A_COLUMN; i++) {
         let id_query = "#" + i;
         if ($(id_query).attr("class").includes("active")) {
-            if($(id_query).attr("class").includes("bomb")){
+            if ($(id_query).attr("class").includes("bomb")) {
                 touch_bomb++;
+                game_state = "lose";
                 alert("You lose!");
+                break;
             }
         } else {
             how_many_unreveal_squares++;
@@ -439,13 +440,40 @@ function check_win_or_lose() {
     }
 
     if ((how_many_unreveal_squares <= NUMBER_OF_BOMBS) && touch_bomb === 0) {
+        game_state = "win";
         alert("You win!");
     }
 
 
 }
 
+/****************************************** Time counter ***************************************************/
+function time_counter() {
+    if (game_state === "nothing" && is_first_click === false) {
+        let time = new Date();
+        let start_time = time.getTime();
+        let start_minute = time.getMinutes();
+        let start_second = time.getSeconds();
 
+        let interval_time_id = setInterval(myFunction, 1000);
+
+        function myFunction() {
+            let now = new Date();
+            /*document.getElementById("time_panel").innerHTML =
+                (now.getMinutes() - start_minute) + ":" +
+                (now.getSeconds() - start_second);*/
+
+            /*document.getElementById("time_panel").innerHTML =
+                (now.getTime() - time.) + ":" +
+                (now.getSeconds() - start_second);*/
+            document.getElementById("time_panel").innerHTML = parseInt((now.getTime() - time.getTime()) / 1000);
+
+            if (game_state !== "nothing") {
+                clearInterval(interval_time_id);
+            }
+        }
+    }
+}
 
 
 
