@@ -581,12 +581,12 @@ function update_status() {
     console.log(information_game.state_game);
 }
 
-function update_status_data(){
+function update_status_data() {
     information_game.state_game = game_state;
 }
 
 /******************************************* Update global board *******************************************/
-function update_global_board(row_length, column_length, bombs, name){
+function update_global_board(row_length, column_length, bombs, name) {
     row_length = parseInt(row_length);
     column_length = parseInt(column_length);
     bombs = parseInt(bombs);
@@ -602,7 +602,7 @@ function update_global_board(row_length, column_length, bombs, name){
 
 
 /****************************************** Post data ******************************************************/
-function post_board(info_json){
+function post_board(info_json) {
     fetch('/game_request', {
         method: 'POST',
         headers: {
@@ -611,18 +611,17 @@ function post_board(info_json){
         body: JSON.stringify({
             info_json
         }),
-    }).then(function(){
+    }).then(function () {
         window.location.replace("/game");
     });
 
-    //window.location.replace("/game");
-    
-    
+
+
 }
 
 /****************************************** Initialize board ***********************************************/
-function initialize_board(){
-    
+function initialize_board() {
+
 }
 
 /****************************************** Calling default function****************************************/
@@ -632,3 +631,4 @@ function initialize_board(){
 create_squares(NUMBER_SQUARES_IN_A_ROW, NUMBER_SQUARES_IN_A_COLUMN);
 active_undo_button();
 update_status();
+
