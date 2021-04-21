@@ -161,7 +161,8 @@
             <div class="card-body d-flex justify-content-around align-items-center border">
                 <button type="button" class="btn btn-success" style="background-color: #4169e1;" onclick="undo_state()"
                     id="undo_button">Undo</button>
-                <button type="button" class="btn btn-primary" style="background-color: #4169e1;">Leaderboard</button>
+                <button type="button" class="btn btn-primary" style="background-color: #4169e1;"
+                    onclick="get_data_leaderboard()">Leaderboard</button>
             </div>
 
             <div class="card-footer d-flex justify-content-center align-items-center border">
@@ -176,13 +177,62 @@
         </div>
     </div>
 
-    <div>Row length: <%= number_of_squares_a_row %></div>
-    <div>Column length: <%= number_of_squares_a_column %></div>
-    <div>Number of bombs: <%= number_of_bombs %></div>
-    <div>Player name: <%= name %></div>
+
+
+
+    <!-- Modal -->
+    <div class="modal" id="myModal" style="overflow-y: auto;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: #fefebe;">
+
+                <!-- Modal Header -->
+                <div class="modal-header" style="background-color: #fff192;">
+                    <h4 class="modal-title">Leaderboard</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="table-responsive" style="height: 400px; overflow-y: auto;">
+                        <table class="table table-hover text-center">
+                            <thead>
+                                <th>Name</th>
+                                <th>Board</th>
+                                <th>Number of bombs</th>
+                                <th>Date</th>
+                                <th>Game state</th>
+                                <th>Total time</th>
+                            </thead>
+                            <tbody id="leaderboard_body">
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer" style="background-color: #fff192;">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="number_of_squares_a_row"><%= number_of_squares_a_row %></div>
+    <div id="number_of_squares_a_column"><%= number_of_squares_a_column %></div>
+    <div id="number_of_bombs"><%= number_of_bombs %></div>
+    <div id="user_name"><%= name %></div>
 
     <script src="../javascripts/create_board.js"></script>
     <script>
+        function activate_modal() {
+            $('#myModal').modal('show');
+        }
+
         //Remove the menu context
         $('.hoverable').bind("contextmenu", function (e) {
             return false;

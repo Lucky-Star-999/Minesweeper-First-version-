@@ -11,6 +11,14 @@ var information_game = {
     bomb_numbers: NUMBER_OF_BOMBS,
     state_game: game_state
 }
+var leader_board = {
+    player_name: "Lucky",
+    board_dimension: NUMBER_SQUARES_IN_A_ROW + "x" + NUMBER_SQUARES_IN_A_COLUMN,
+    bomb_numbers: NUMBER_OF_BOMBS,
+    state_game: game_state,
+    total_time: 10,
+    date: 0
+}
 
 
 
@@ -439,7 +447,10 @@ function check_win_or_lose() {
             if ($(id_query).attr("class").includes("bomb")) {
                 touch_bomb++;
                 game_state = "Lose";
-                alert("You lose!");
+                
+                export_leader_board();
+                upload_leaderboard_to_database();
+                //alert("You lose!");
                 break;
             }
         } else {
@@ -449,7 +460,9 @@ function check_win_or_lose() {
 
     if ((how_many_unreveal_squares <= NUMBER_OF_BOMBS) && touch_bomb === 0) {
         game_state = "Win";
-        alert("You win!");
+        export_leader_board();
+        upload_leaderboard_to_database();
+        //alert("You win!");
     }
 
 
@@ -467,6 +480,9 @@ function time_counter() {
 
         function myFunction() {
             let now = new Date();
+            if (game_state !== "Playing...") {
+                clearInterval(interval_time_id);
+            }
             /*document.getElementById("time_panel").innerHTML =
                 (now.getMinutes() - start_minute) + ":" +
                 (now.getSeconds() - start_second);*/
@@ -477,9 +493,6 @@ function time_counter() {
             let output_time = convert_seconds_to_minute_second(parseInt((now.getTime() - time.getTime()) / 1000));
             document.getElementById("time_panel").innerHTML = output_time;
 
-            if (game_state !== "Playing...") {
-                clearInterval(interval_time_id);
-            }
         }
     }
 }
@@ -532,7 +545,6 @@ function undo_state() {
         $(id_query).removeClass();
         $(id_query).addClass(board_state[board_state.length - 1][i]);
     }
-    console.log(board_state);
     active_undo_button();
 
 }
@@ -550,7 +562,6 @@ function avoid_fake_update(number_id) {
     //let number_id = parseInt(number_id);
 
     let surrounding_3x3 = relative_3x3_squares(number_id);
-    console.log(surrounding_3x3);
     let is_need_to_update = true;
     let number_of_active_squares = 0;
     if (board_state.length >= 1) {
@@ -578,7 +589,6 @@ function update_status() {
     $("#bomb_numbers").text(information_game.bomb_numbers + "");
     $("#state_game").text(information_game.state_game + "");
 
-    console.log(information_game.state_game);
 }
 
 function update_status_data() {
@@ -621,14 +631,102 @@ function post_board(info_json) {
 
 /****************************************** Initialize board ***********************************************/
 function initialize_board() {
+    NUMBER_SQUARES_IN_A_ROW = parseInt($("#number_of_squares_a_row").text());
+    NUMBER_SQUARES_IN_A_COLUMN = parseInt($("#number_of_squares_a_column").text());
+    NUMBER_OF_BOMBS = parseInt($("#number_of_bombs").text());
 
+    information_game.player_name = $("#user_name").text();
+    information_game.board_dimension = NUMBER_SQUARES_IN_A_ROW + "x" + NUMBER_SQUARES_IN_A_COLUMN;
+    information_game.bomb_numbers = NUMBER_OF_BOMBS;
+    information_game.state_game = "Playing...";
+
+    //Delete the html elements
+    $("#number_of_squares_a_row").remove();
+    $("#number_of_squares_a_column").remove();
+    $("#number_of_bombs").remove();
+    $("#user_name").remove();
+}
+
+/****************************************** Leaderboaard ***************************************************/
+function export_leader_board() {
+    leader_board.player_name = information_game.player_name;
+    leader_board.board_dimension = information_game.board_dimension;
+    leader_board.bomb_numbers = information_game.bomb_numbers;
+    leader_board.state_game = game_state;
+
+    //Get date
+    let d = new Date();
+    let date = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+    leader_board.date = date;
+
+
+    //Get timeplay
+    let time_elapse_str = $("#time_panel").text();
+    let minute = parseInt(time_elapse_str.charAt(0) + time_elapse_str.charAt(1));
+    let second = parseInt(time_elapse_str.charAt(3) + time_elapse_str.charAt(4));
+    leader_board.total_time = minute * 60 + second;
+
+
+}
+
+function get_data_leaderboard() {
+    fetch('/leaderboard', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(res => res.json())
+        .then(json => {
+            console.log(json);
+            export_json(json);
+        });
+}
+
+function export_json(json){
+    //alert(json[0].player_name);
+    let content = '';
+
+    for(let i=0; i<json.length; i++){
+        content = content + '<tr>'
+        
+        content = content + '<td>' + json[i].player_name + '</td>';
+        content = content + '<td>' + json[i].board_dimension + '</td>';
+        content = content + '<td>' + json[i].bomb_numbers + '</td>';
+        content = content + '<td>' + json[i].time_play + '</td>';
+        content = content + '<td>' + json[i].state_game + '</td>';
+        content = content + '<td>' + json[i].total_time + '</td>';
+        
+        content = content + '</tr>';
+    }
+
+    $("#leaderboard_body").append(content);
+
+    activate_modal();
+}
+
+function upload_leaderboard_to_database(){
+
+    if(leader_board.player_name !== ""){
+        fetch('/leaderboard_upload', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                leader_board
+            }),
+        }).then(function () {
+            
+        });
+    }
 }
 
 /****************************************** Calling default function****************************************/
 
 //Max width is 30
-
+initialize_board();
 create_squares(NUMBER_SQUARES_IN_A_ROW, NUMBER_SQUARES_IN_A_COLUMN);
 active_undo_button();
 update_status();
+
 
