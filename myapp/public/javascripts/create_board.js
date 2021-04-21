@@ -585,9 +585,32 @@ function update_status_data(){
     information_game.state_game = game_state;
 }
 
+/******************************************* Update global board *******************************************/
+function update_global_board(row_length, column_length, bombs, name){
+    row_length = parseInt(row_length);
+    column_length = parseInt(column_length);
+    bombs = parseInt(bombs);
+
+    NUMBER_SQUARES_IN_A_ROW = row_length;
+    NUMBER_SQUARES_IN_A_COLUMN = column_length;
+    NUMBER_OF_BOMBS = bombs;
+
+    information_game.player_name = name;
+    information_game.board_dimension = NUMBER_SQUARES_IN_A_ROW + "x" + NUMBER_SQUARES_IN_A_COLUMN;
+    information_game.bomb_numbers = NUMBER_OF_BOMBS;
+}
+
+
+
+/****************************************** Initialize board ***********************************************/
+function initialize_board(){
+    
+}
+
 /****************************************** Calling default function****************************************/
 
 //Max width is 30
+
 create_squares(NUMBER_SQUARES_IN_A_ROW, NUMBER_SQUARES_IN_A_COLUMN);
 active_undo_button();
 update_status();

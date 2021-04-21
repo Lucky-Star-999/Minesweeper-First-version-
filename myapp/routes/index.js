@@ -12,6 +12,10 @@ router.get('/', function(req, res, next) {
   res.render('../views/html/index');
 });
 
+router.get('/game', function(req, res, next) {
+  res.render('../views/html/game');
+});
+
 router.get('/option', function(req, res, next) {
   res.render('../views/html/option');
 });
