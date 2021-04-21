@@ -3,8 +3,14 @@ var NUMBER_SQUARES_IN_A_COLUMN = 10;
 var NUMBER_OF_BOMBS = 20;
 var map_board = [];
 var is_first_click = true;
-var game_state = "nothing";
+var game_state = "Playing...";
 var board_state = [];
+var information_game = {
+    player_name: "Lucky",
+    board_dimension: NUMBER_SQUARES_IN_A_ROW + "x" + NUMBER_SQUARES_IN_A_COLUMN,
+    bomb_numbers: NUMBER_OF_BOMBS,
+    state_game: game_state
+}
 
 
 
@@ -432,7 +438,7 @@ function check_win_or_lose() {
         if ($(id_query).attr("class").includes("active")) {
             if ($(id_query).attr("class").includes("bomb")) {
                 touch_bomb++;
-                game_state = "lose";
+                game_state = "Lose";
                 alert("You lose!");
                 break;
             }
@@ -442,7 +448,7 @@ function check_win_or_lose() {
     }
 
     if ((how_many_unreveal_squares <= NUMBER_OF_BOMBS) && touch_bomb === 0) {
-        game_state = "win";
+        game_state = "Win";
         alert("You win!");
     }
 
@@ -451,7 +457,7 @@ function check_win_or_lose() {
 
 /****************************************** Time counter ***************************************************/
 function time_counter() {
-    if (game_state === "nothing" && is_first_click === false) {
+    if (game_state === "Playing..." && is_first_click === false) {
         let time = new Date();
         let start_time = time.getTime();
         let start_minute = time.getMinutes();
@@ -471,7 +477,7 @@ function time_counter() {
             let output_time = convert_seconds_to_minute_second(parseInt((now.getTime() - time.getTime()) / 1000));
             document.getElementById("time_panel").innerHTML = output_time;
 
-            if (game_state !== "nothing") {
+            if (game_state !== "Playing...") {
                 clearInterval(interval_time_id);
             }
         }
@@ -532,7 +538,7 @@ function undo_state() {
 }
 
 function active_undo_button() {
-    if (board_state.length <= 1) {
+    if (board_state.length <= 1 || game_state === "Lose" || game_state === "Win") {
         $("#undo_button").prop("disabled", true);
     } else {
         $("#undo_button").prop("disabled", false);
@@ -563,8 +569,25 @@ function avoid_fake_update(number_id) {
     return is_need_to_update;
 }
 
+/***************************************** Handle Status ***************************************************/
+function update_status() {
+    update_status_data();
+
+    $("#player_name").text(information_game.player_name + "");
+    $("#board_dimension").text(information_game.board_dimension + "");
+    $("#bomb_numbers").text(information_game.bomb_numbers + "");
+    $("#state_game").text(information_game.state_game + "");
+
+    console.log(information_game.state_game);
+}
+
+function update_status_data(){
+    information_game.state_game = game_state;
+}
+
 /****************************************** Calling default function****************************************/
 
 //Max width is 30
 create_squares(NUMBER_SQUARES_IN_A_ROW, NUMBER_SQUARES_IN_A_COLUMN);
 active_undo_button();
+update_status();

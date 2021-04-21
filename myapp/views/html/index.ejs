@@ -141,12 +141,11 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><span>Lucky</span></td>
-                                <td><span>15x10</span></td>
-                                <td><span>5</span></td>
-                                <td><span>Playing...</span></td>
+                                <td><span id="player_name"></span></td>
+                                <td><span id="board_dimension"></span></td>
+                                <td><span id="bomb_numbers"></span></td>
+                                <td><span id="state_game"></span></td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -172,9 +171,9 @@
 
             <div class="card-footer d-flex justify-content-center align-items-center border">
                 <div>
-                    <div>1. Left-click: open a square</div>
-                    <div>2. Right-click: put a flag</div>
-                    <div>3. Middle-click: reveal 3x3 range</div>
+                    <div><b>1. Left-click</b>: open a square</div>
+                    <div><b>2. Right-click</b>: put a flag</div>
+                    <div><b>3. Middle-click</b>: reveal 3x3 range</div>
                     <div>
                     </div>
                 </div>
@@ -196,34 +195,39 @@
 
                 //Check clicking on a square
                 $('.hoverable').mousedown(function (event) {
-
-                    switch (event.which) {
-                        case 1:
-                            reveal_square(this.id);
-                            break;
-                        case 2:
-                            event.preventDefault();
-                            if (is_first_click) {
+                    if (game_state === "Playing...") {
+                        switch (event.which) {
+                            case 1:
                                 reveal_square(this.id);
-                            } else {
-                                reveal_3x3_squares(this.id);
-                            }
-                            break;
-                        case 3:
-                            $(this).toggleClass("flag_on");
-                            break;
+                                break;
+                            case 2:
+                                event.preventDefault();
+                                if (is_first_click) {
+                                    reveal_square(this.id);
+                                } else {
+                                    reveal_3x3_squares(this.id);
+                                }
+                                break;
+                            case 3:
+                                $(this).toggleClass("flag_on");
+                                break;
+                        }
+
+
+                        check_win_or_lose();
+
+                        let is_need_update = avoid_fake_update(this.id);
+
+                        if (is_need_update === true) {
+                            update_board_state();
+                        }
+
+                        active_undo_button();
                     }
 
 
-                    check_win_or_lose();
-
-                    let is_need_update = avoid_fake_update(this.id);
-
-                    if (is_need_update === true) {
-                        update_board_state();
-                    }
-
-                    active_undo_button();
+                    
+                    update_status();
                 });
 
                 //Disable wheel click on the board
