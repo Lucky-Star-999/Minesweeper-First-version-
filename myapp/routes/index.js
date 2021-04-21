@@ -12,4 +12,8 @@ router.get('/', function(req, res, next) {
   res.render('../views/html/index');
 });
 
+router.get('/option', function(req, res, next) {
+  res.render('../views/html/option');
+});
+
 module.exports = router;

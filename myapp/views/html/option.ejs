@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <title>Option</title>
+
+    <style>
+        /*body{
+            background-color: #def3fd;
+        }*/
+        body {
+            background-color: #b5dfcf;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid d-flex justify-content-around">
+        <div class="card" style="width: 700px;">
+            <form>
+                <div class="form-group">
+                    <div class="" style="width: 70%">
+                        <label for="formControlRange">Row dimension</label>
+                        <div class="d-flex justify-content-around align-items-center" id="range_group_1">
+                            <input type="range" class="form-control-range" id="formControlRange_1"
+                                onInput="update_state_range()" min="1" max="30">
+                            <span class="ml-3" id="rangeval_1"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="" style="width: 70%">
+                        <label for="formControlRange">Column dimension</label>
+                        <div class="d-flex justify-content-around align-items-center" id="range_group_2">
+                            <input type="range" class="form-control-range" id="formControlRange_2"
+                                onInput="update_state_range()" min="1" max="30">
+                            <span class="ml-3" id="rangeval_2"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="" style="width: 70%">
+                        <label for="formControlRange">Number of bombs</label>
+                        <div class="d-flex justify-content-around align-items-center" id="range_group_3">
+                            <input type="range" class="form-control-range" id="formControlRange_3"
+                                onInput="update_state_range()" min="0" max="5">
+                            <span class="ml-3" id="rangeval_3"></span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        /*Handle for range input*/
+        function update_state_range(){
+            $('#rangeval_1').html($("#formControlRange_1").val());
+            $('#rangeval_2').html($("#formControlRange_2").val());
+            $('#rangeval_3').html($("#formControlRange_3").val());
+
+
+            document.getElementById("formControlRange_2").min = 3;
+            console.log(document.getElementById("formControlRange_2").min);
+        }
+
+    </script>
+
+
+</body>
+
+</html>

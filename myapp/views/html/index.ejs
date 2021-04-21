@@ -149,11 +149,6 @@
                         </tbody>
                     </table>
                 </div>
-
-
-
-
-
             </div>
 
 
@@ -177,67 +172,67 @@
                     <div>
                     </div>
                 </div>
-
-
             </div>
+        </div>
+    </div>
 
-            <script src="../javascripts/create_board.js"></script>
-            <script>
-                //Remove the menu context
-                $('.hoverable').bind("contextmenu", function (e) {
-                    return false;
-                });
+    <script src="../javascripts/create_board.js"></script>
+    <script>
+        //Remove the menu context
+        $('.hoverable').bind("contextmenu", function (e) {
+            return false;
+        });
 
-                //Remove the menu context
-                $('#board').bind("contextmenu", function (e) {
-                    return false;
-                });
+        //Remove the menu context
+        $('#board').bind("contextmenu", function (e) {
+            return false;
+        });
 
-                //Check clicking on a square
-                $('.hoverable').mousedown(function (event) {
-                    if (game_state === "Playing...") {
-                        switch (event.which) {
-                            case 1:
-                                reveal_square(this.id);
-                                break;
-                            case 2:
-                                event.preventDefault();
-                                if (is_first_click) {
-                                    reveal_square(this.id);
-                                } else {
-                                    reveal_3x3_squares(this.id);
-                                }
-                                break;
-                            case 3:
-                                $(this).toggleClass("flag_on");
-                                break;
+        //Check clicking on a square
+        $('.hoverable').mousedown(function (event) {
+            if (game_state === "Playing...") {
+                switch (event.which) {
+                    case 1:
+                        reveal_square(this.id);
+                        break;
+                    case 2:
+                        event.preventDefault();
+                        if (is_first_click) {
+                            reveal_square(this.id);
+                        } else {
+                            reveal_3x3_squares(this.id);
                         }
+                        break;
+                    case 3:
+                        $(this).toggleClass("flag_on");
+                        break;
+                }
 
 
-                        check_win_or_lose();
+                check_win_or_lose();
 
-                        let is_need_update = avoid_fake_update(this.id);
+                let is_need_update = avoid_fake_update(this.id);
 
-                        if (is_need_update === true) {
-                            update_board_state();
-                        }
+                if (is_need_update === true) {
+                    update_board_state();
+                }
 
-                        active_undo_button();
-                    }
+                active_undo_button();
+            }
 
 
-                    
-                    update_status();
-                });
 
-                //Disable wheel click on the board
-                $('#board').mousedown(function (event) {
-                    switch (event.which) {
-                        case 2:
-                            event.preventDefault();
-                    }
-                });
-            </script>
+            update_status();
+        });
+
+        //Disable wheel click on the board
+        $('#board').mousedown(function (event) {
+            switch (event.which) {
+                case 2:
+                    event.preventDefault();
+            }
+        });
+    </script>
 
 
 </body>
