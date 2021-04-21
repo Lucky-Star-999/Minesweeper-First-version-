@@ -601,6 +601,24 @@ function update_global_board(row_length, column_length, bombs, name){
 }
 
 
+/****************************************** Post data ******************************************************/
+function post_board(info_json){
+    fetch('/game_request', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            info_json
+        }),
+    }).then(function(){
+        window.location.replace("/game");
+    });
+
+    //window.location.replace("/game");
+    
+    
+}
 
 /****************************************** Initialize board ***********************************************/
 function initialize_board(){

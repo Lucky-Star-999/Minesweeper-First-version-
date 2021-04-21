@@ -160,19 +160,31 @@
             let bombs = $("#formControlRange_3").val();
             let name = "";
 
+            let info_json = {
+                number_of_squares_a_row: row_length,
+                number_of_squares_a_column: column_length,
+                number_of_bombs: bombs,
+                name: ""
+            };
+
             let publish = document.getElementById("publish");
             if (publish.checked) {
                 if ($("#name_player").val() === "") {
                     alert("Please enter your name! Or, choose not to publish!")
                 } else {
                     name = $("#name_player").val();
-                    update_global_board(row_length, column_length, bombs, name);
-                    window.location.replace("/game");
+                    /*update_global_board(row_length, column_length, bombs, name);
+                    window.location.replace("/game");*/
+                    info_json.name = name;
+                    post_board(info_json);
                 }
             } else {
-                update_global_board(row_length, column_length, bombs, name);
-                window.location.replace("/game");
+                /*update_global_board(row_length, column_length, bombs, name);
+                window.location.replace("/game");*/
+                info_json.name = name;
+                post_board(info_json);
             }
+            console.log(info_json);
         }
     </script>
 

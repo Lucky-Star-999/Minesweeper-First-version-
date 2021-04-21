@@ -16,6 +16,13 @@ router.get('/game', function(req, res, next) {
   res.render('../views/html/game');
 });
 
+router.post('/game_request', function(req, res, next) {
+  console.log("Request received!");
+  console.log(req.body);
+  res.end();
+  //res.render('../views/html/game');
+});
+
 router.get('/option', function(req, res, next) {
   res.render('../views/html/option');
 });
