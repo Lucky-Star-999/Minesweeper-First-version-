@@ -519,9 +519,32 @@ function active_undo_button() {
     }
 }
 
+//When user click at the opened squares, it should not update into stack
+function avoid_fake_update(number_id) {
+    //let number_id = parseInt(number_id);
+
+    let surrounding_3x3 = relative_3x3_squares(number_id);
+    console.log(surrounding_3x3);
+    let is_need_to_update = true;
+    let number_of_active_squares = 0;
+    if (board_state.length >= 1) {
+        for (let i = 0; i < surrounding_3x3.length; i++) {
+            let id_query = "#" + surrounding_3x3[i];
+            if ($(id_query).attr("class") === board_state[board_state.length - 1][surrounding_3x3[i]]) {
+                number_of_active_squares++;
+            }
+        }
+        if (number_of_active_squares >= surrounding_3x3.length) {
+            is_need_to_update = false;
+        }
+    }
+
+
+    return is_need_to_update;
+}
+
 /****************************************** Calling default function****************************************/
 
 //Max width is 30
 create_squares(NUMBER_SQUARES_IN_A_ROW, NUMBER_SQUARES_IN_A_COLUMN);
 active_undo_button();
-alert("Nếu user click bậy mà không có gì thay đổi ở board, thì không update!");

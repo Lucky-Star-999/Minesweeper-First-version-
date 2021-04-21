@@ -163,6 +163,7 @@
 
         //Check clicking on a square
         $('.hoverable').mousedown(function (event) {
+            
             switch (event.which) {
                 case 1:
                     reveal_square(this.id);
@@ -177,10 +178,18 @@
                     break;
                 case 3:
                     $(this).toggleClass("flag_on");
-                    break; 
+                    break;
             }
+
+
             check_win_or_lose();
-            update_board_state();
+
+            let is_need_update = avoid_fake_update(this.id);
+
+            if (is_need_update === true) {
+                update_board_state();
+            }
+  
             active_undo_button();
         });
 
