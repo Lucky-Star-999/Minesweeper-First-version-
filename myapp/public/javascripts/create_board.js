@@ -468,13 +468,33 @@ function time_counter() {
             /*document.getElementById("time_panel").innerHTML =
                 (now.getTime() - time.) + ":" +
                 (now.getSeconds() - start_second);*/
-            document.getElementById("time_panel").innerHTML = parseInt((now.getTime() - time.getTime()) / 1000);
+            let output_time = convert_seconds_to_minute_second(parseInt((now.getTime() - time.getTime()) / 1000));
+            document.getElementById("time_panel").innerHTML = output_time;
 
             if (game_state !== "nothing") {
                 clearInterval(interval_time_id);
             }
         }
     }
+}
+
+function convert_seconds_to_minute_second(second_elapsed) {
+    let second = second_elapsed % 60;
+    let minute = parseInt(second_elapsed / 60);
+    let output_time = "";
+    if (minute < 10) {
+        output_time = output_time + "0" + minute + ":";
+    } else {
+        output_time = output_time + minute + ":";
+    }
+
+    if (second < 10) {
+        output_time = output_time + "0" + second;
+    } else {
+        output_time = output_time + second;
+    }
+
+    return output_time;
 }
 
 /****************************************** Store board state (Support "Undo") *************************************/

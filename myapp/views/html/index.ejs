@@ -18,7 +18,7 @@
             background-color: #def3fd;
         }*/
         body {
-            background-color: blue;
+            background-color: #b5dfcf;
         }
 
         .hoverable {
@@ -102,6 +102,15 @@
         .active.number_9 {
             background-image: url('../images/Number_9.png');
         }
+
+        #time_panel {
+            background-color: #1167b1;
+            border-radius: 10px;
+            width: 40%;
+            height: 70%;
+            color: white;
+            font-size: 25px;
+        }
     </style>
 </head>
 
@@ -113,94 +122,118 @@
 
         </div>
 
-        <div class="mt-5 card" style="width: 500px; height: 600px; background-color: aqua;" id="panel">
+        <div class="mt-5 card" style="width: 500px; height: 600px; background-color: #ffffb7;" id="panel">
             <div class="card-header text-center">
                 <h1>Minesweeper</h1>
             </div>
 
-            <div class="card-body">
-                <div>Timer</div>
-                <div id="time_panel"></div>
+
+
+
+            <div class="card-body d-flex flex-column justify-content-around align-items-center">
+                <div class="table-responsive">
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <th>Name</th>
+                            <th>Board</th>
+                            <th>Number of bombs</th>
+                            <th>Game state</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span>Lucky</span></td>
+                                <td><span>15x10</span></td>
+                                <td><span>5</span></td>
+                                <td><span>Playing...</span></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+
             </div>
 
-            <div class="card-body d-flex justify-content-around align-items-center">
-                <button type="button" class="btn btn-success" onclick="undo_state()" id="undo_button">Undo</button>
-                <button type="button" class="btn btn-primary">Leaderboard</button>
-            </div>
 
-            <div class="card-body d-flex flex-column justify-content-around align-items-center border">
-                <div>Status</div>
-                <div>
-                    <p>Name: <span>Lucky</span></p>
-                    <p>Board: <span>15x10</span></p>
-                    <p>Numnber of bombs: <span>5</span></p>
-                    <p>Game state: <span>Playing...</span></p>
+            <div class="card-body d-flex justify-content-center align-items-center border">
+                <div class="border d-flex justify-content-center align-items-center" id="time_panel">
+                    00:00
                 </div>
             </div>
 
-            <div class="card-footer">
-                <div>Instruction: </div>
-                <div>Left-click to open a square</div>
-                <div>Right-click to put a flag</div>
-                <div>Middle-click to reveal 3x3 range</div>
+            <div class="card-body d-flex justify-content-around align-items-center border">
+                <button type="button" class="btn btn-success" style="background-color: #4169e1;" onclick="undo_state()"
+                    id="undo_button">Undo</button>
+                <button type="button" class="btn btn-primary" style="background-color: #4169e1;">Leaderboard</button>
             </div>
-        </div>
+
+            <div class="card-footer d-flex justify-content-center align-items-center border">
+                <div>
+                    <div>1. Left-click: open a square</div>
+                    <div>2. Right-click: put a flag</div>
+                    <div>3. Middle-click: reveal 3x3 range</div>
+                    <div>
+                    </div>
+                </div>
 
 
-    </div>
+            </div>
 
-    <script src="../javascripts/create_board.js"></script>
-    <script>
-        //Remove the menu context
-        $('.hoverable').bind("contextmenu", function (e) {
-            return false;
-        });
+            <script src="../javascripts/create_board.js"></script>
+            <script>
+                //Remove the menu context
+                $('.hoverable').bind("contextmenu", function (e) {
+                    return false;
+                });
 
-        //Remove the menu context
-        $('#board').bind("contextmenu", function (e) {
-            return false;
-        });
+                //Remove the menu context
+                $('#board').bind("contextmenu", function (e) {
+                    return false;
+                });
 
-        //Check clicking on a square
-        $('.hoverable').mousedown(function (event) {
-            
-            switch (event.which) {
-                case 1:
-                    reveal_square(this.id);
-                    break;
-                case 2:
-                    event.preventDefault();
-                    if (is_first_click) {
-                        reveal_square(this.id);
-                    } else {
-                        reveal_3x3_squares(this.id);
+                //Check clicking on a square
+                $('.hoverable').mousedown(function (event) {
+
+                    switch (event.which) {
+                        case 1:
+                            reveal_square(this.id);
+                            break;
+                        case 2:
+                            event.preventDefault();
+                            if (is_first_click) {
+                                reveal_square(this.id);
+                            } else {
+                                reveal_3x3_squares(this.id);
+                            }
+                            break;
+                        case 3:
+                            $(this).toggleClass("flag_on");
+                            break;
                     }
-                    break;
-                case 3:
-                    $(this).toggleClass("flag_on");
-                    break;
-            }
 
 
-            check_win_or_lose();
+                    check_win_or_lose();
 
-            let is_need_update = avoid_fake_update(this.id);
+                    let is_need_update = avoid_fake_update(this.id);
 
-            if (is_need_update === true) {
-                update_board_state();
-            }
-  
-            active_undo_button();
-        });
+                    if (is_need_update === true) {
+                        update_board_state();
+                    }
 
-        //Disable wheel click on the board
-        $('#board').mousedown(function (event) {
-            switch (event.which) {
-                case 2:
-                    event.preventDefault();
-            }
-        });
-    </script>
+                    active_undo_button();
+                });
+
+                //Disable wheel click on the board
+                $('#board').mousedown(function (event) {
+                    switch (event.which) {
+                        case 2:
+                            event.preventDefault();
+                    }
+                });
+            </script>
 
 
 </body>
