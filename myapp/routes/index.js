@@ -86,6 +86,9 @@ module.exports = router;
 function readFile() {
   let rawdata = fs.readFileSync('../myapp/public/json/temp_data_board.json');
   let data = JSON.parse(rawdata);
+
+  let file = "";
+  fs.writeFileSync('../myapp/public/json/temp_data_board.json', file);
   return data;
 }
 

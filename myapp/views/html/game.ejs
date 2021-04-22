@@ -162,6 +162,8 @@
                 <button type="button" class="btn btn-success" style="background-color: #4169e1;" onclick="undo_state()"
                     id="undo_button">Undo</button>
                 <button type="button" class="btn btn-primary" style="background-color: #4169e1;"
+                    onclick="restart_game()">Restart</button>
+                <button type="button" class="btn btn-primary" style="background-color: #4169e1;"
                     onclick="get_data_leaderboard()">Leaderboard</button>
             </div>
 
@@ -298,7 +300,7 @@
 
                 active_undo_button();
 
-                
+
             }
 
 
@@ -313,6 +315,23 @@
                     event.preventDefault();
             }
         });
+    </script>
+    <script>
+        function restart_game() {
+            let row_length = NUMBER_SQUARES_IN_A_ROW;
+            let column_length = NUMBER_SQUARES_IN_A_COLUMN;
+            let bombs = NUMBER_OF_BOMBS;
+            let name = information_game.player_name;
+
+            let info_json = {
+                number_of_squares_a_row: row_length,
+                number_of_squares_a_column: column_length,
+                number_of_bombs: bombs,
+                name: ""
+            };
+
+            post_board(info_json);
+        }
     </script>
 
 
