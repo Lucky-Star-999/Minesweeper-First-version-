@@ -32,7 +32,10 @@ function create_squares(number_squares_in_a_row, number_squares_in_a_column) {
     let big_or_small = "big";
 
     //Checking if the squares should be big or small
-    if (number_squares_in_a_row > 15 /*|| number_squares_in_a_column > 10*/ ) {
+    if ((number_squares_in_a_row > 15 && number_squares_in_a_row < 20) ||
+        (number_squares_in_a_column > 11 && number_squares_in_a_column < 15)) {
+        big_or_small = "normal";
+    } else if (number_squares_in_a_row >= 20 || number_squares_in_a_column >= 15) {
         big_or_small = "small";
     }
 
@@ -40,6 +43,9 @@ function create_squares(number_squares_in_a_row, number_squares_in_a_column) {
     if (big_or_small === "big") {
         width_length = 54 * number_squares_in_a_row;
         height_length = 54 * number_squares_in_a_column;
+    } else if (big_or_small === "normal") {
+        width_length = 39 * number_squares_in_a_row;
+        height_length = 39 * number_squares_in_a_column;
     } else {
         width_length = 29 * number_squares_in_a_row;
         height_length = 29 * number_squares_in_a_column;
@@ -60,6 +66,9 @@ function create_squares(number_squares_in_a_row, number_squares_in_a_column) {
     for (let i = 0; i < number_of_squares; i++) {
         if (big_or_small === "big") {
             content = content + '<div class="hoverable" style="width: 50px; height:50px;" id="' + i +
+                '"></div>';
+        } else if (big_or_small === "normal") {
+            content = content + '<div class="hoverable" style="width: 35px; height:35px;" id="' + i +
                 '"></div>';
         } else {
             content = content + '<div class="hoverable" style="width: 25px; height:25px;" id="' + i +
@@ -447,7 +456,7 @@ function check_win_or_lose() {
             if ($(id_query).attr("class").includes("bomb")) {
                 touch_bomb++;
                 game_state = "Lose";
-                
+
                 $("#state_played").text("You lose!");
                 activate_modal_2();
 
@@ -466,7 +475,7 @@ function check_win_or_lose() {
 
         $("#state_played").text("You win!");
         activate_modal_2();
-        
+
         export_leader_board();
         upload_leaderboard_to_database();
         //alert("You win!");
@@ -673,7 +682,7 @@ function export_leader_board() {
     let second = parseInt(time_elapse_str.charAt(3) + time_elapse_str.charAt(4));
     leader_board.total_time = minute * 60 + second;
 
-    /*if(leader_board.total_time === "null"){
+    /*if(minute === "null" || second==="null" || leader_board.total_time==="null"){
         leader_board.total_time = 0;
     }*/
 
@@ -692,7 +701,7 @@ function get_data_leaderboard() {
         });
 }
 
-function export_json(json){
+function export_json(json) {
     //alert(json[0].player_name);
 
 
@@ -700,16 +709,16 @@ function export_json(json){
 
     let content = '';
 
-    for(let i=0; i<json.length; i++){
+    for (let i = 0; i < json.length; i++) {
         content = content + '<tr>'
-        
+
         content = content + '<td>' + json[i].player_name + '</td>';
         content = content + '<td>' + json[i].board_dimension + '</td>';
         content = content + '<td>' + json[i].bomb_numbers + '</td>';
         content = content + '<td>' + json[i].time_play + '</td>';
         content = content + '<td>' + json[i].state_game + '</td>';
         content = content + '<td>' + json[i].total_time + '</td>';
-        
+
         content = content + '</tr>';
     }
 
@@ -718,9 +727,9 @@ function export_json(json){
     activate_modal();
 }
 
-function upload_leaderboard_to_database(){
+function upload_leaderboard_to_database() {
 
-    if(leader_board.player_name !== ""){
+    if (leader_board.player_name !== "") {
         fetch('/leaderboard_upload', {
             method: 'POST',
             headers: {
@@ -730,7 +739,7 @@ function upload_leaderboard_to_database(){
                 leader_board
             }),
         }).then(function () {
-            
+
         });
     }
 }
@@ -742,5 +751,3 @@ initialize_board();
 create_squares(NUMBER_SQUARES_IN_A_ROW, NUMBER_SQUARES_IN_A_COLUMN);
 active_undo_button();
 update_status();
-
-

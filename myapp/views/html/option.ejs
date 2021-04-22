@@ -51,7 +51,7 @@
                         <label for="formControlRange">Column dimension</label>
                         <div class="d-flex justify-content-around align-items-center" id="range_group_2">
                             <input type="range" class="form-control-range" id="formControlRange_2"
-                                onInput="update_state_range()" min="4" max="30">
+                                onInput="update_state_range()" min="4" max="20">
                             <span class="ml-3" id="rangeval_2"></span>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                         <label for="formControlRange">Number of bombs <span id="bomb_label"></span></label>
                         <div class="d-flex justify-content-around align-items-center" id="range_group_3">
                             <input type="range" class="form-control-range" id="formControlRange_3"
-                                onInput="update_bomb_value()" min="1" max="10">
+                                onInput="update_bomb_value()" min="3" max="140">
                             <span class="ml-3" id="rangeval_3"></span>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
         function initialize_range_bar() {
             row_dimension.value = 15;
             column_dimension.value = 10;
-            bombs.value = 5;
+            bombs.value = 20;
             $('#rangeval_1').html($("#formControlRange_1").val());
             $('#rangeval_2').html($("#formControlRange_2").val());
             $('#rangeval_3').html($("#formControlRange_3").val());
@@ -127,9 +127,9 @@
             $('#rangeval_2').html($("#formControlRange_2").val());
 
             bombs.max = (parseInt(row_dimension.value) * parseInt(column_dimension.value)) - 10;
-            bombs.value = 1;
+            bombs.value = 3;
             if (bombs.max <= 0) {
-                bombs.max = 1;
+                bombs.max = 3;
             }
             $('#rangeval_3').html($("#formControlRange_3").val());
             $("#bomb_label").html("(Max: " + bombs.max + ")");
