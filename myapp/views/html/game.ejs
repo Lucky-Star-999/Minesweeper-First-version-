@@ -183,10 +183,10 @@
     <!-- Modal -->
     <div class="modal" id="myModal" style="overflow-y: auto;">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content" style="background-color: #fefebe;">
+            <div class="modal-content" style="background-color: #dbf0fe;">
 
                 <!-- Modal Header -->
-                <div class="modal-header" style="background-color: #fff192;">
+                <div class="modal-header" style="background-color: #c3e7fd;">
                     <h4 class="modal-title">Leaderboard</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
@@ -213,10 +213,30 @@
                 </div>
 
                 <!-- Modal footer -->
-                <div class="modal-footer" style="background-color: #fff192;">
+                <div class="modal-footer" style="background-color: #c3e7fd;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal for win/lose -->
+    <div class="modal" id="myModal2" style="margin-top: 200px;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="background-color: #dbf0fe;">
+
+                <!-- Modal Header -->
+                <div class="modal-header" style="background-color: #c3e7fd;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body text-center">
+                    <div id="state_played"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -231,6 +251,10 @@
     <script>
         function activate_modal() {
             $('#myModal').modal('show');
+        }
+
+        function activate_modal_2() {
+            $('#myModal2').modal('show');
         }
 
         //Remove the menu context
@@ -273,6 +297,8 @@
                 }
 
                 active_undo_button();
+
+                
             }
 
 

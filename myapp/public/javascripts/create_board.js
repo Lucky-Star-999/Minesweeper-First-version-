@@ -448,6 +448,9 @@ function check_win_or_lose() {
                 touch_bomb++;
                 game_state = "Lose";
                 
+                $("#state_played").text("You lose!");
+                activate_modal_2();
+
                 export_leader_board();
                 upload_leaderboard_to_database();
                 //alert("You lose!");
@@ -460,6 +463,10 @@ function check_win_or_lose() {
 
     if ((how_many_unreveal_squares <= NUMBER_OF_BOMBS) && touch_bomb === 0) {
         game_state = "Win";
+
+        $("#state_played").text("You win!");
+        activate_modal_2();
+        
         export_leader_board();
         upload_leaderboard_to_database();
         //alert("You win!");
@@ -666,6 +673,9 @@ function export_leader_board() {
     let second = parseInt(time_elapse_str.charAt(3) + time_elapse_str.charAt(4));
     leader_board.total_time = minute * 60 + second;
 
+    /*if(leader_board.total_time === "null"){
+        leader_board.total_time = 0;
+    }*/
 
 }
 
@@ -684,6 +694,10 @@ function get_data_leaderboard() {
 
 function export_json(json){
     //alert(json[0].player_name);
+
+
+    $("#leaderboard_body").empty();
+
     let content = '';
 
     for(let i=0; i<json.length; i++){

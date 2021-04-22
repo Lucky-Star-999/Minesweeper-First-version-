@@ -94,7 +94,7 @@
                     <div class="d-flex justify-content-between align-items-center" style="width: 70%;">
                         <button type="button" class="btn btn-success"
                             onclick="initialize_board_information()">Play</button>
-                        <button type="button" class="btn btn-danger">Cancel</button>
+                        <button type="button" class="btn btn-danger" onclick="direct_home()">Cancel</button>
                     </div>
 
                 </div>
@@ -185,6 +185,10 @@
                 post_board(info_json);
             }
             console.log(info_json);
+        }
+
+        function direct_home(){
+            window.location.href = "/";
         }
     </script>
 
