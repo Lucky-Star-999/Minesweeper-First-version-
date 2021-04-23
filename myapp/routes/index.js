@@ -97,23 +97,25 @@ function select_from_leaderboard() {
   return new Promise((resolve, reject) => {
 
     //Connect to MySQL
-    var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "123456",
-      database: "minesweeper"
+    var con = mysql.createPool({
+      connectionLimit : 5,
+      host: "bymjjni5jghvjeg0plbs-mysql.services.clever-cloud.com",
+      user: "uw3hize49re9fxiu",
+      password: "fY33q0EuUsNTXdn6PrHK",
+      database: "bymjjni5jghvjeg0plbs"
     });
 
-    con.connect(function (err) {
+    /*con.connect(function (err) {
       if (err) throw err;
       console.log("Connected!!!");
-    });
+    });*/
 
     var sql = "SELECT * FROM Leaderboard";
     con.query(sql, (err, results) => {
       if (err) {
         return reject(err);
       }
+      //con.end();
       return resolve(results);
     });
   });
@@ -125,17 +127,25 @@ function insert_into_leaderboard(json) {
   return new Promise((resolve, reject) => {
 
     //Connect to MySQL
-    var con = mysql.createConnection({
+    /*var con = mysql.createConnection({
       host: "localhost",
       user: "root",
       password: "123456",
       database: "minesweeper"
+    });*/
+
+    var con = mysql.createPool({
+      connectionLimit : 5,
+      host: "bymjjni5jghvjeg0plbs-mysql.services.clever-cloud.com",
+      user: "uw3hize49re9fxiu",
+      password: "fY33q0EuUsNTXdn6PrHK",
+      database: "bymjjni5jghvjeg0plbs"
     });
 
-    con.connect(function (err) {
+    /*con.connect(function (err) {
       if (err) throw err;
       console.log("Connected!!!");
-    });
+    });*/
 
     console.log(json.leader_board.player_name);
     let content = 'insert into Leaderboard (player_name, board_dimension, bomb_numbers, state_game, total_time, time_play)' +
@@ -151,6 +161,7 @@ function insert_into_leaderboard(json) {
       if (err) {
         return reject(err);
       }
+      //con.end();
       return resolve(results);
     });
   });

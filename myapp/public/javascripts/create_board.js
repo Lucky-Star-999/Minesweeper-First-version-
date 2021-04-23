@@ -682,7 +682,7 @@ function export_leader_board() {
     let second = parseInt(time_elapse_str.charAt(3) + time_elapse_str.charAt(4));
     leader_board.total_time = minute * 60 + second;
 
-    /*if(minute === "null" || second==="null" || leader_board.total_time==="null"){
+    /*if (leader_board.total_time === null) {
         leader_board.total_time = 0;
     }*/
 
@@ -717,7 +717,13 @@ function export_json(json) {
         content = content + '<td>' + json[i].bomb_numbers + '</td>';
         content = content + '<td>' + json[i].time_play + '</td>';
         content = content + '<td>' + json[i].state_game + '</td>';
-        content = content + '<td>' + json[i].total_time + '</td>';
+
+        if (json[i].total_time === null) {
+            content = content + '<td>' + 0 + '</td>';
+        } else {
+            content = content + '<td>' + json[i].total_time + '</td>';
+        }
+
 
         content = content + '</tr>';
     }
