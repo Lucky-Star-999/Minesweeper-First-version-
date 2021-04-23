@@ -750,7 +750,7 @@ function upload_leaderboard_to_database() {
     }
 }
 
-/****************************************** Calling default function****************************************/
+/****************************************** Calling default function*****************************************/
 
 //Max width is 30
 initialize_board();
