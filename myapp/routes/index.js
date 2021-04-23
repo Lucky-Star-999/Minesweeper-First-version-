@@ -30,7 +30,8 @@ router.post('/game_request', function (req, res, next) {
 
   //Write file
   let data = JSON.stringify(req.body);
-  fs.writeFileSync('../myapp/public/json/temp_data_board.json', data);
+  //fs.writeFileSync('../myapp/public/json/temp_data_board.json', data);
+  fs.writeFileSync('temp_data_board.json', data);
 
   res.end();
   //res.render('../views/html/game');
@@ -84,11 +85,13 @@ module.exports = router;
 
 
 function readFile() {
-  let rawdata = fs.readFileSync('../myapp/public/json/temp_data_board.json');
+  //let rawdata = fs.readFileSync('../myapp/public/json/temp_data_board.json');
+  let rawdata = fs.readFileSync('temp_data_board.json');
   let data = JSON.parse(rawdata);
 
   let file = "";
-  fs.writeFileSync('../myapp/public/json/temp_data_board.json', file);
+  //fs.writeFileSync('../myapp/public/json/temp_data_board.json', file);
+  fs.writeFileSync('temp_data_board.json', file);
   return data;
 }
 
